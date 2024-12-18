@@ -135,3 +135,5 @@ C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\refint\APIC
 C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\APICatalogo.pdb
 C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\APICatalogo.genruntimeconfig.cache
 C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\ref\APICatalogo.dll
+C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\APICatalogo.sourcelink.json
+C:\Users\igorb\Source\Repos\APICatalogo\APICatalogo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
