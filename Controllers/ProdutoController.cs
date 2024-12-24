@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace APICatalogo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProdutoController: ControllerBase
     {
         private readonly AppDbContext _context;
@@ -18,9 +18,9 @@ namespace APICatalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get()
+        public async Task<ActionResult<IEnumerable<Produto>>> Get()
         {
-            var produtos = _context.Produtos.ToList();
+            var produtos = await _context.Produtos.ToListAsync();
 
             if (produtos is null)
             {
@@ -30,7 +30,9 @@ namespace APICatalogo.Controllers
             return produtos;
         }
 
-        [HttpGet("{id}", Name="ObterProduto")]
+        [HttpGet("{id:int:min(1)}", Name="ObterProduto")] 
+        // O name é utilizado para ser chamados em outros verbos. 
+        // Para por restrições, basta adicionar após o " : ", como min(), alpha (alfanuméricos), alpha:length(5) etc.
         public ActionResult<Produto> Get(int id)
         {
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);

@@ -74,5 +74,8 @@ namespace APICatalogo.Controllers
             return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria);
 
         }
+
+
+         
     }
 }
