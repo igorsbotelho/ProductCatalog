@@ -1,4 +1,5 @@
 ﻿using APICatalogo.Context;
+//using APICatalogo.Filters;
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace APICatalogo.Controllers
         }
 
         [HttpGet]
+        //[ServiceFilter(typeof(ApiLogginFilter))]
         public async Task<ActionResult<IEnumerable<Produto>>> Get()
         {
             var produtos = await _context.Produtos.ToListAsync();

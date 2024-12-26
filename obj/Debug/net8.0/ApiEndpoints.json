@@ -207,5 +207,25 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "APICatalogo.Controllers.CategoriaController",
+    "Method": "GetValores",
+    "RelativePath": "Categoria/ReadConfigFiles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

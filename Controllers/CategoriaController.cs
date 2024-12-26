@@ -11,10 +11,20 @@ namespace APICatalogo.Controllers
     public class CategoriaController : ControllerBase
     {
         public readonly AppDbContext _context;
+        public readonly IConfiguration _configuration;
 
-        public CategoriaController(AppDbContext context)
+        public CategoriaController(AppDbContext context, IConfiguration configuration)
         {
+            _configuration = configuration;
             _context = context;
+        }
+
+        [HttpGet("ReadConfigFiles")]
+        public string GetValores()
+        {
+            var valores = _configuration["chave1"];
+
+            return $"Chave 1 = {valores}";
         }
 
         [HttpGet("produtos")]
@@ -74,8 +84,5 @@ namespace APICatalogo.Controllers
             return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria);
 
         }
-
-
-         
     }
 }
