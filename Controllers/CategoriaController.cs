@@ -17,20 +17,19 @@ namespace APICatalogo.Controllers
         public readonly AppDbContext _context;
         public readonly IConfiguration _configuration;
 
-        public CategoriaController(ICategoriaRepository repository, AppDbContext context, IConfiguration configuration)
+        public CategoriaController(ICategoriaRepository repository, IConfiguration configuration)
         {
             _repository = repository;
             _configuration = configuration;
-            _context = context;
         }
 
-        [HttpGet("ReadConfigFiles")]
-        public string GetValores()
-        {
-            var valores = _configuration["chave1"];
+        //[HttpGet("ReadConfigFiles")]
+        //public string GetValores()
+        //{
+        //    var valores = _configuration["chave1"];
 
-            return $"Chave 1 = {valores}";
-        }
+        //    return $"Chave 1 = {valores}";
+        //}
 
         [HttpGet("produtos")]
 
@@ -70,9 +69,8 @@ namespace APICatalogo.Controllers
             return Ok(categoria);
         }
 
-        [HttpPost("{id}")]
-
-        public ActionResult Post(int id, Categoria categoria)
+        [HttpPost]
+        public ActionResult Post(Categoria categoria)
         {
             if (categoria is null)
                 return BadRequest();
@@ -84,6 +82,7 @@ namespace APICatalogo.Controllers
             // new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria)
         }
 
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             var categoria = _repository.GetCategoriaById(id); 
