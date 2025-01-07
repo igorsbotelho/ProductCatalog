@@ -1,6 +1,6 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.Models;
-using APICatalogo.Repositories;
+using APICatalogo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +12,7 @@ namespace APICatalogo.Controllers
     [Route("[controller]")]
     public class CategoriaController : ControllerBase
     {
-        private readonly ICategoriaRepository _repository;
-
-        public readonly AppDbContext _context;
+        private readonly IRepository<Categoria> _repository;
         public readonly IConfiguration _configuration;
 
         public CategoriaController(ICategoriaRepository repository, IConfiguration configuration)
@@ -23,25 +21,10 @@ namespace APICatalogo.Controllers
             _configuration = configuration;
         }
 
-        //[HttpGet("ReadConfigFiles")]
-        //public string GetValores()
-        //{
-        //    var valores = _configuration["chave1"];
-
-        //    return $"Chave 1 = {valores}";
-        //}
-
-        [HttpGet("produtos")]
-
-        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
-        {
-            return _context.Categorias.Include(p => p.Produtos).ToList();
-        }
-
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            var categorias = _repository.GetCategorias();
+            var categorias = _repository.GetAll();
 
             return Ok(categorias); 
         }
@@ -49,7 +32,7 @@ namespace APICatalogo.Controllers
         [HttpGet("{id}", Name = "ObterCategoria")]
         public ActionResult<Categoria> GetById(int id)
         {
-            var categoria = _repository.GetCategoriaById(id);
+            var categoria = _repository.GetById(c => c.CategoriaId == id);
 
             if (categoria is null)
                 return NotFound("Produto não encontrado");
@@ -64,7 +47,7 @@ namespace APICatalogo.Controllers
             if (id != categoria.CategoriaId)
                 return BadRequest();
 
-            _repository.UpdateCategoria(categoria); 
+            _repository.Update(categoria); 
 
             return Ok(categoria);
         }
@@ -75,7 +58,7 @@ namespace APICatalogo.Controllers
             if (categoria is null)
                 return BadRequest();
 
-            var categoriaCriada = _repository.CreateCategoria(categoria);
+            var categoriaCriada = _repository.Create(categoria);
 
             return Ok(categoriaCriada);
 
@@ -85,12 +68,12 @@ namespace APICatalogo.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            var categoria = _repository.GetCategoriaById(id); 
+            var categoria = _repository.GetById(c => c.CategoriaId == id); 
 
             if (categoria is null)
                 return NotFound("Categoria não existe");
             
-            var categoriaExcluida = _repository.DeleteCategoria(id);
+            var categoriaExcluida = _repository.Delete(categoria);
             return Ok(categoria);
         }
     }

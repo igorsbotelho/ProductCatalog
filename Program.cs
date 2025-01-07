@@ -1,6 +1,8 @@
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Repositories;
+using APICatalogo.Repositories.Interfaces;
+
 
 
 //using APICatalogo.Filters;
@@ -26,6 +28,7 @@ string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConn
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
