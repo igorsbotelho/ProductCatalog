@@ -1,4 +1,5 @@
 ﻿using APICatalogo.Context;
+using APICatalogo.DTOs;
 using APICatalogo.Models;
 using APICatalogo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -20,51 +21,71 @@ namespace APICatalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Categoria>> Get()
+        public ActionResult<IEnumerable<CategoriaDTO>> Get()
         {
             var categorias = _unityOfWork.CategoriaRepository.GetAll();
 
-            return Ok(categorias); 
+            if (categorias is null)
+                return NotFound("Não encontrei categorias");
+
+            var categoriasDto = categorias.ToCategoriaDTOList();
+
+            return Ok(categoriasDto); 
         }
 
         [HttpGet("{id}", Name = "ObterCategoria")]
-        public ActionResult<Categoria> GetById(int id)
+        public ActionResult<CategoriaDTO> GetById(int id)
         {
             var categoria = _unityOfWork.CategoriaRepository.GetById(c => c.CategoriaId == id);
-
+            
             if (categoria is null)
                 return NotFound("Produto não encontrado");
 
-            return Ok(categoria);
+
+            var categoriaDto = categoria.ToCategoriaDTO();
+
+            return Ok(categoriaDto);
         }
 
         [HttpPut("{id}")]
 
-        public ActionResult Put(int id, Categoria categoria)
+        public ActionResult<CategoriaDTO> Put(int id, CategoriaDTO categoriaDto)
         {
-            if (id != categoria.CategoriaId)
+            if (id != categoriaDto.CategoriaId)
                 return BadRequest();
 
-            _unityOfWork.CategoriaRepository.Update(categoria); 
+            var categoria = categoriaDto.ToCategoria();
 
-            return Ok(categoria);
+            var categoriaAtualizada = _unityOfWork.CategoriaRepository.Update(categoria);
+            _unityOfWork.Commit();
+
+            var novaCategoriaDto = categoriaAtualizada.ToCategoriaDTO();
+
+            return Ok(novaCategoriaDto);
         }
 
         [HttpPost]
-        public ActionResult Post(Categoria categoria)
+        public ActionResult<CategoriaDTO> Post(CategoriaDTO categoriaDto)
         {
-            if (categoria is null)
+            if (categoriaDto is null)
                 return BadRequest();
 
-            var categoriaCriada = _unityOfWork.CategoriaRepository.Create(categoria);
+            var categoria = categoriaDto.ToCategoria();
 
-            return Ok(categoriaCriada);
+            var categoriaCriada = _unityOfWork.CategoriaRepository.Create(categoria);
+            _unityOfWork.Commit();
+
+
+            var novaCategoriaDto = categoriaCriada.ToCategoriaDTO();
+
+
+            return Ok(novaCategoriaDto);
 
             // new CreatedAtRouteResult("ObterCategoria", new { id = categoria.CategoriaId }, categoria)
         }
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public ActionResult<CategoriaDTO> Delete(int id)
         {
             var categoria = _unityOfWork.CategoriaRepository.GetById(c => c.CategoriaId == id); 
 
@@ -72,7 +93,11 @@ namespace APICatalogo.Controllers
                 return NotFound("Categoria não existe");
             
             var categoriaExcluida = _unityOfWork.CategoriaRepository.Delete(categoria);
-            return Ok(categoria);
+            _unityOfWork.Commit();
+
+            var categoriaExcluidaDto = categoriaExcluida.ToCategoriaDTO();
+
+            return Ok(categoriaExcluidaDto);
         }
     }
 }
