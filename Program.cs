@@ -18,7 +18,8 @@ builder.Services.AddControllers(o =>
 {
     o.Filters.Add(typeof(ApiExceptionFilter));
 })
-    .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // Adicionando os controllers
+    .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles) // Adicionando os controllers
+    .AddNewtonsoftJson(); 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

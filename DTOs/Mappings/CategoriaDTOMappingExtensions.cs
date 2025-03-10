@@ -1,6 +1,6 @@
 ﻿using APICatalogo.Models;
 
-namespace APICatalogo.DTOs
+namespace APICatalogo.DTOs.Mappings
 {
     public static class CategoriaDTOMappingExtensions
     {

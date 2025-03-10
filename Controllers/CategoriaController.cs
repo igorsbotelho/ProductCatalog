@@ -1,5 +1,6 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.DTOs;
+using APICatalogo.DTOs.Mappings;
 using APICatalogo.Models;
 using APICatalogo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -63,6 +64,10 @@ namespace APICatalogo.Controllers
 
             return Ok(novaCategoriaDto);
         }
+
+
+
+
 
         [HttpPost]
         public ActionResult<CategoriaDTO> Post(CategoriaDTO categoriaDto)
