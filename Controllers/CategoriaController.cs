@@ -3,6 +3,7 @@ using APICatalogo.DTOs;
 using APICatalogo.DTOs.Mappings;
 using APICatalogo.Models;
 using APICatalogo.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace APICatalogo.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<CategoriaDTO>> Get()
         {
             var categorias = _unityOfWork.CategoriaRepository.GetAll();
